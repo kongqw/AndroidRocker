@@ -1,10 +1,17 @@
-package kong.qingwei.kqwrockerdemo;
+package kong.qingwei.rockerlibrary;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -19,7 +26,7 @@ public class RockerView extends View {
     private Point mRockerPosition;
     private Paint mRockerPaint;
     private final Point mCenterPoint;
-    private int mRadius;
+    private int mAreaRadius;
 
     private CallBackMode mCallBackMode = CallBackMode.CALL_BACK_MODE_MOVE;
     private OnShakeListener mOnShakeListener;
@@ -58,16 +65,42 @@ public class RockerView extends View {
     private static final double ANGLE_8D_OF_7P = 337.5;
 
     private OnAngleChangeListener mOnAngleChangeListener;
+    private Drawable mAreaBackground;
+    private Drawable mRockerBackground;
+    private int mRockerRadius;
+    private final Paint mAreaBackgroundPaint;
 
     public RockerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // 创建一支画笔：
+
+        // 获取自定义属性
+        initAttribute(context, attrs);
+
+        // 移动区域画笔
+        mAreaBackgroundPaint = new Paint();
+        mAreaBackgroundPaint.setAntiAlias(true);
+
+        // 摇杆画笔
         mRockerPaint = new Paint();
-        mRockerPaint.setColor(Color.RED);
+        mRockerPaint.setAntiAlias(true);
+
         // 中心点
         mCenterPoint = new Point();
         // 摇杆位置
         mRockerPosition = new Point();
+    }
+
+    private void initAttribute(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RockerView);
+        // 可移动区域背景
+        mAreaBackground = typedArray.getDrawable(R.styleable.RockerView_area_background);
+        // 摇杆背景
+        mRockerBackground = typedArray.getDrawable(R.styleable.RockerView_rocker_background);
+        // 摇杆半径
+        mRockerRadius = typedArray.getDimensionPixelOffset(R.styleable.RockerView_rocker_radius, 30);
+        Log.i(TAG, "initAttribute: area_bg = " + mAreaBackground + "   rocker_bg = " + mRockerBackground);
+
+        typedArray.recycle();
     }
 
     @Override
@@ -77,23 +110,80 @@ public class RockerView extends View {
         int measuredWidth = getMeasuredWidth();
         int measuredHeight = getMeasuredHeight();
 
-        // 创建画笔
-        Paint p = new Paint();
-        p.setColor(Color.GRAY);
-        p.setAntiAlias(true);
         int cx = measuredWidth / 2;
         int cy = measuredHeight / 2;
         // 中心点
         mCenterPoint.set(cx, cy);
-        mRadius = (measuredWidth <= measuredHeight) ? cx : cy;
-        canvas.drawCircle(cx, cy, mRadius, p);
 
-        Log.i(TAG, "onDraw: mRockerPosition.x = " + mRockerPosition.x + "  mRockerPosition.y = " + mRockerPosition.y);
+        mAreaRadius = (measuredWidth <= measuredHeight) ? cx : cy;
 
+
+        // 画可移动区域
+        if (null != mAreaBackground) {
+            if (mAreaBackground instanceof BitmapDrawable) {
+                // 图片
+                Bitmap mAreaBitmap = ((BitmapDrawable) mAreaBackground).getBitmap();
+                mAreaBackgroundPaint.setColor(Color.BLACK);
+                Rect src = new Rect(0, 0, mAreaBitmap.getWidth(), mAreaBitmap.getHeight());
+                Rect dst = new Rect(mCenterPoint.x - mAreaRadius, mCenterPoint.y - mAreaRadius, mCenterPoint.x + mAreaRadius, mCenterPoint.y + mAreaRadius);
+                canvas.drawBitmap(mAreaBitmap, src, dst, mAreaBackgroundPaint);
+            } else if (mAreaBackground instanceof GradientDrawable) {
+                // TODO XML
+                mAreaBackgroundPaint.setColor(Color.GRAY);
+                canvas.drawCircle(mCenterPoint.x, mCenterPoint.y, mAreaRadius, mAreaBackgroundPaint);
+            } else if (mAreaBackground instanceof ColorDrawable) {
+                // 色值
+                int mAreaColor = ((ColorDrawable) mAreaBackground).getColor();
+                mAreaBackgroundPaint.setColor(mAreaColor);
+                canvas.drawCircle(mCenterPoint.x, mCenterPoint.y, mAreaRadius, mAreaBackgroundPaint);
+            } else {
+                // 没有设置 显示默认
+                mAreaBackgroundPaint.setColor(Color.GRAY);
+                canvas.drawCircle(mCenterPoint.x, mCenterPoint.y, mAreaRadius, mAreaBackgroundPaint);
+            }
+        } else {
+            // 没有设置 显示默认
+            mAreaBackgroundPaint.setColor(Color.GRAY);
+            canvas.drawCircle(mCenterPoint.x, mCenterPoint.y, mAreaRadius, mAreaBackgroundPaint);
+        }
+
+
+        // 摇杆位置
         if (0 == mRockerPosition.x || 0 == mRockerPosition.y) {
             mRockerPosition.set(mCenterPoint.x, mCenterPoint.y);
         }
-        canvas.drawCircle(mRockerPosition.x, mRockerPosition.y, 50, mRockerPaint);
+
+        // 画摇杆
+        if (null != mRockerBackground) {
+            if (mRockerBackground instanceof BitmapDrawable) {
+                // 图片
+                Bitmap mAreaBitmap = ((BitmapDrawable) mRockerBackground).getBitmap();
+                mRockerPaint.setColor(Color.BLACK);
+                Rect src = new Rect(0, 0, mAreaBitmap.getWidth(), mAreaBitmap.getHeight());
+                Rect dst = new Rect(mCenterPoint.x - mRockerRadius, mCenterPoint.y - mRockerRadius, mCenterPoint.x + mRockerRadius, mCenterPoint.y + mRockerRadius);
+                canvas.drawBitmap(mAreaBitmap, src, dst, mRockerPaint);
+            } else if (mRockerBackground instanceof GradientDrawable) {
+                // TODO XML
+                mRockerPaint.setColor(Color.RED);
+                canvas.drawCircle(mRockerPosition.x, mRockerPosition.y, mRockerRadius, mRockerPaint);
+            } else if (mRockerBackground instanceof ColorDrawable) {
+                // 色值
+                int mAreaColor = ((ColorDrawable) mRockerBackground).getColor();
+                mRockerPaint.setColor(mAreaColor);
+                canvas.drawCircle(mRockerPosition.x, mRockerPosition.y, mRockerRadius, mRockerPaint);
+            } else {
+                // 没有设置 显示默认
+                mRockerPaint.setColor(Color.RED);
+                canvas.drawCircle(mRockerPosition.x, mRockerPosition.y, mRockerRadius, mRockerPaint);
+            }
+
+
+        } else {
+            // 没有设置 显示默认
+            mAreaBackgroundPaint.setColor(Color.RED);
+            canvas.drawCircle(mRockerPosition.x, mRockerPosition.y, mRockerRadius, mRockerPaint);
+        }
+
     }
 
 
@@ -106,7 +196,7 @@ public class RockerView extends View {
             case MotionEvent.ACTION_MOVE:// 移动
                 float moveX = event.getX();
                 float moveY = event.getY();
-                mRockerPosition = getRockerPositionPoint(mCenterPoint, new Point((int) moveX, (int) moveY), mRadius, 50);
+                mRockerPosition = getRockerPositionPoint(mCenterPoint, new Point((int) moveX, (int) moveY), mAreaRadius, mRockerRadius);
                 moveRocker(mRockerPosition.x, mRockerPosition.y);
                 break;
             case MotionEvent.ACTION_UP:// 抬起
@@ -408,7 +498,7 @@ public class RockerView extends View {
     /**
      * 回调模式
      */
-    enum CallBackMode {
+    public enum CallBackMode {
         // 有移动就立刻回调
         CALL_BACK_MODE_MOVE,
         // 只有状态变化的时候才回调
@@ -427,7 +517,7 @@ public class RockerView extends View {
     /**
      * 摇杆支持几个方向
      */
-    enum DirectionMode {
+    public enum DirectionMode {
         DIRECTION_2_HORIZONTAL,// 横向 左右两个方向
         DIRECTION_2_VERTICAL, // 纵向 上下两个方向
         DIRECTION_4_ROTATE_0, // 四个方向
@@ -438,7 +528,7 @@ public class RockerView extends View {
     /**
      * 方向
      */
-    enum Direction {
+    public enum Direction {
         DIRECTION_LEFT, // 左
         DIRECTION_RIGHT, // 右
         DIRECTION_UP, // 上
