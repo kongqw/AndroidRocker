@@ -9,16 +9,149 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="kong.qingwei.kqwrockerdemo.MainActivity">
 
-    <kong.qingwei.kqwrockerdemo.RockerView
-        android:id="@+id/rockerView"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
-        android:layout_alignParentBottom="true"
-        android:background="#FFBBBBBB" />
-
-    <Button
+    <LinearLayout
+        android:id="@+id/ll1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="move"
-        android:text="move" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="监听摇动角度（可以自己扩展）" />
+
+        <TextView
+            android:id="@+id/log1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <kong.qingwei.kqwrockerdemo.RockerView
+            android:id="@+id/rockerView1"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:background="#FFBBBBBB" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/ll1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="左右两区域" />
+
+        <TextView
+            android:id="@+id/log2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <kong.qingwei.kqwrockerdemo.RockerView
+            android:id="@+id/rockerView2"
+            android:layout_width="300dp"
+            android:layout_height="200dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/ll2"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上下两区域" />
+
+        <TextView
+            android:id="@+id/log3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <kong.qingwei.kqwrockerdemo.RockerView
+            android:id="@+id/rockerView3"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/ll3"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="四个区域" />
+
+        <TextView
+            android:id="@+id/log4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <kong.qingwei.kqwrockerdemo.RockerView
+            android:id="@+id/rockerView4"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="#FFBBBBBB" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll1"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="四个区域(旋转45度)" />
+
+        <TextView
+            android:id="@+id/log5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <kong.qingwei.kqwrockerdemo.RockerView
+            android:id="@+id/rockerView5"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll1"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/ll5"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="四个区域(旋转45度)" />
+
+        <TextView
+            android:id="@+id/log6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <kong.qingwei.kqwrockerdemo.RockerView
+            android:id="@+id/rockerView6"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
+    </LinearLayout>
+
 </RelativeLayout>
