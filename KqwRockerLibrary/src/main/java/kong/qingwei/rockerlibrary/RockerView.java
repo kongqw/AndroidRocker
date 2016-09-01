@@ -24,6 +24,9 @@ import android.view.View;
 public class RockerView extends View {
     private static final String TAG = "RockerView";
 
+    private static final int DEFAULT_SIZE = 400;
+    private static final int DEFAULT_ROCKER_RADIUS = DEFAULT_SIZE / 8;
+
     private Paint mAreaBackgroundPaint;
     private Paint mRockerPaint;
 
@@ -92,16 +95,21 @@ public class RockerView extends View {
         mRockerPosition = new Point();
     }
 
+    /**
+     * 获取属性
+     * @param context context
+     * @param attrs attrs
+     */
     private void initAttribute(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RockerView);
+
         // 可移动区域背景
         mAreaBackground = typedArray.getDrawable(R.styleable.RockerView_area_background);
         // 摇杆背景
         mRockerBackground = typedArray.getDrawable(R.styleable.RockerView_rocker_background);
         // 摇杆半径
-        mRockerRadius = typedArray.getDimensionPixelOffset(R.styleable.RockerView_rocker_radius, 50);
+        mRockerRadius = typedArray.getDimensionPixelOffset(R.styleable.RockerView_rocker_radius, DEFAULT_ROCKER_RADIUS);
         Log.i(TAG, "initAttribute: area_bg = " + mAreaBackground + "   rocker_bg = " + mRockerBackground);
-
         typedArray.recycle();
     }
 
@@ -114,53 +122,24 @@ public class RockerView extends View {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        if (widthMode == MeasureSpec.AT_MOST) {
-            // 最小宽度
-            measureWidth = widthSize < heightSize ? widthSize : widthSize / 3;
-        } else {
+        if (widthMode == MeasureSpec.EXACTLY) {
+            // 具体的值和match_parent
             measureWidth = widthSize;
-        }
-        if (heightMode == MeasureSpec.AT_MOST) {
-            // 最小宽度
-            measureHeight = widthSize < heightSize ? widthSize : widthSize / 3;
         } else {
+            // wrap_content
+            measureWidth = DEFAULT_SIZE;
+        }
+        if (heightMode == MeasureSpec.EXACTLY) {
             measureHeight = heightSize;
+        } else {
+            measureHeight = DEFAULT_SIZE;
         }
         Log.i(TAG, "onMeasure: --------------------------------------");
-        Log.i(TAG, "onMeasure: widthMode = " + widthMode + "  measureWidth = " + MeasureSpec.getSize(widthMeasureSpec));
-        Log.i(TAG, "onMeasure: heightMode = " + heightMode + "  measureHeight = " + MeasureSpec.getSize(heightMeasureSpec));
+        Log.i(TAG, "onMeasure: widthMeasureSpec = " + widthMeasureSpec + " heightMeasureSpec = " + heightMeasureSpec);
+        Log.i(TAG, "onMeasure: widthMode = " + widthMode + "  measureWidth = " + widthSize);
+        Log.i(TAG, "onMeasure: heightMode = " + heightMode + "  measureHeight = " + widthSize);
+        Log.i(TAG, "onMeasure: measureWidth = " + measureWidth + " measureHeight = " + measureHeight);
         setMeasuredDimension(measureWidth, measureHeight);
-
-//
-//
-//        int measureWidth, measureHeight;
-//        int defaultWidth = (200 + mRockerRadius) * 2;
-//        int defaultHeight = defaultWidth;
-//
-//        int widthsize = MeasureSpec.getSize(widthMeasureSpec);      //取出宽度的确切数值
-//        int widthmode = MeasureSpec.getMode(widthMeasureSpec);      //取出宽度的测量模式
-//
-//        int heightsize = MeasureSpec.getSize(heightMeasureSpec);    //取出高度的确切数值
-//        int heightmode = MeasureSpec.getMode(heightMeasureSpec);    //取出高度的测量模式
-//
-//        Log.i(TAG, "onMeasure: widthsize = " + widthsize + "  widthmode = " + widthmode + "  heightsize = " + heightsize + "  heightmode = " + heightmode);
-//
-//        // 测量宽度
-//        if (widthmode == MeasureSpec.AT_MOST || widthmode == MeasureSpec.UNSPECIFIED || widthsize < 0) {
-//            measureWidth = defaultWidth;
-//        } else {
-//            measureWidth = widthsize;
-//        }
-//
-//        // 测量高度
-//        if (heightmode == MeasureSpec.AT_MOST || heightmode == MeasureSpec.UNSPECIFIED || heightsize < 0) {
-//            measureHeight = defaultHeight;
-//        } else {
-//            measureHeight = heightsize;
-//        }
-//
-//        Log.i(TAG, "onMeasure: measureWidth = " + measureWidth + " measureHeight = " + measureHeight);
-//        setMeasuredDimension(measureWidth, measureHeight);
     }
 
     @Override

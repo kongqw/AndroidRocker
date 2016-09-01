@@ -1,31 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:kongqw="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/ll1"
+    <TextView
+        android:id="@+id/tip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="支持8个方向的摇杆" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="支持8个方向的摇杆" />
+    <TextView
+        android:id="@+id/log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tip" />
 
-        <TextView
-            android:id="@+id/log"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <kong.qingwei.rockerlibrary.RockerView
-            android:id="@+id/rockerView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FFCCCCCC" />
-    </LinearLayout>
+    <kong.qingwei.rockerlibrary.RockerView
+        android:id="@+id/rockerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/log"
+        android:background="#FF8883FF" />
 
 </RelativeLayout>
