@@ -2,10 +2,9 @@
 <resources>
 
     <declare-styleable name="RockerView">
-        <attr name="area_radius" format="dimension"/>
-        <attr name="area_background" format="color|reference"/>
-        <attr name="rocker_radius" format="dimension"/>
-        <attr name="rocker_background" format="color|reference"/>
+        <attr name="areaBackground" format="color|reference" />
+        <attr name="rockerBackground" format="color|reference" />
+        <attr name="rockerRadius" format="dimension" />
     </declare-styleable>
 
 </resources>

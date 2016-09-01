@@ -19,8 +19,9 @@
     <kong.qingwei.rockerlibrary.RockerView
         android:id="@+id/rockerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_below="@id/log"
-        android:background="#FF8883FF" />
+        kongqw:areaBackground="@drawable/default_area_bg"
+        kongqw:rockerBackground="@drawable/default_rocker_bg" />
 
 </RelativeLayout>

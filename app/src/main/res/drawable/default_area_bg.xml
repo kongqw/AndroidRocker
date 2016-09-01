@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
     <!-- 渐变颜色 -->
-    <solid android:color="#FFBBBBBB" />
-    <!-- 圆角 -->
-    <corners android:radius="200dp" />
+    <solid android:color="#FFCCCCCC" />
 
     <stroke
-        android:width="5dp"
-        android:color="#FF000000" />
+        android:width="2dp"
+        android:color="#FFAAAAAA" />
+
+    <size
+        android:width="100dp"
+        android:height="100dp" />
+
 </shape>
