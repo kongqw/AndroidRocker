@@ -2,26 +2,70 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:kongqw="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/tip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="支持8个方向的摇杆" />
-
-    <TextView
-        android:id="@+id/log"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tip" />
+    android:layout_height="match_parent"
+    android:padding="30dp">
 
     <kong.qingwei.rockerlibrary.RockerView
-        android:id="@+id/rockerView"
-        android:layout_width="match_parent"
+        android:id="@+id/rockerView_left"
+        android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_below="@id/log"
+        android:layout_alignParentBottom="true"
         kongqw:areaBackground="@drawable/default_area_bg"
-        kongqw:rockerBackground="@drawable/default_rocker_bg" />
+        kongqw:rockerBackground="@drawable/default_rocker_bg"
+        kongqw:rockerRadius="30dp" />
 
+    <TextView
+        android:id="@+id/log_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/rockerView_left" />
+
+    <TextView
+        android:id="@+id/tip_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/log_left"
+        android:text="支持8个方向的摇杆\n自定义Shape" />
+
+    <kong.qingwei.rockerlibrary.RockerView
+        android:id="@+id/rockerView_right"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        kongqw:areaBackground="@mipmap/view_big"
+        kongqw:rockerBackground="@mipmap/view_small"
+        kongqw:rockerRadius="30dp" />
+
+    <TextView
+        android:id="@+id/log_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/rockerView_left"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/tip_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/log_right"
+        android:layout_alignParentRight="true"
+        android:text="获取到摇动角度（可自定义方向）\n自定义图片" />
+
+    <kong.qingwei.rockerlibrary.RockerView
+        android:id="@+id/rockerView_center"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        kongqw:areaBackground="#FF333333"
+        kongqw:rockerBackground="#FF987654"
+        kongqw:rockerRadius="15dp" />
+
+    <TextView
+        android:id="@+id/tip_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/rockerView_center"
+        android:text="自定义色值" />
 </RelativeLayout>

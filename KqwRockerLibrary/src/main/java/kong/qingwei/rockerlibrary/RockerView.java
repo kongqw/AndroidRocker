@@ -36,9 +36,6 @@ public class RockerView extends View {
     private int mAreaRadius;
     private int mRockerRadius;
 
-    private Drawable mAreaBackground;
-    private Drawable mRockerBackground;
-
     private CallBackMode mCallBackMode = CallBackMode.CALL_BACK_MODE_MOVE;
     private OnAngleChangeListener mOnAngleChangeListener;
     private OnShakeListener mOnShakeListener;
@@ -80,7 +77,7 @@ public class RockerView extends View {
     private static final int AREA_BACKGROUND_MODE_COLOR = 1;
     private static final int AREA_BACKGROUND_MODE_XML = 2;
     private static final int AREA_BACKGROUND_MODE_DEFAULT = 3;
-    private static int mAreaBackgroundMode = AREA_BACKGROUND_MODE_DEFAULT;
+    private int mAreaBackgroundMode = AREA_BACKGROUND_MODE_DEFAULT;
     private Bitmap mAreaBitmap;
     private int mAreaColor;
     // 摇杆背景
@@ -88,7 +85,7 @@ public class RockerView extends View {
     private static final int ROCKER_BACKGROUND_MODE_COLOR = 5;
     private static final int ROCKER_BACKGROUND_MODE_XML = 6;
     private static final int ROCKER_BACKGROUND_MODE_DEFAULT = 7;
-    private static int mRockerBackgroundMode = ROCKER_BACKGROUND_MODE_DEFAULT;
+    private int mRockerBackgroundMode = ROCKER_BACKGROUND_MODE_DEFAULT;
     private Bitmap mRockerBitmap;
     private int mRockerColor;
 
@@ -127,20 +124,20 @@ public class RockerView extends View {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RockerView);
 
         // 可移动区域背景
-        mAreaBackground = typedArray.getDrawable(R.styleable.RockerView_areaBackground);
-        if (null != mAreaBackground) {
+        Drawable areaBackground = typedArray.getDrawable(R.styleable.RockerView_areaBackground);
+        if (null != areaBackground) {
             // 设置了背景
-            if (mAreaBackground instanceof BitmapDrawable) {
+            if (areaBackground instanceof BitmapDrawable) {
                 // 设置了一张图片
-                mAreaBitmap = ((BitmapDrawable) mAreaBackground).getBitmap();
+                mAreaBitmap = ((BitmapDrawable) areaBackground).getBitmap();
                 mAreaBackgroundMode = AREA_BACKGROUND_MODE_PIC;
-            } else if (mAreaBackground instanceof GradientDrawable) {
+            } else if (areaBackground instanceof GradientDrawable) {
                 // XML
-                mAreaBitmap = drawable2Bitmap(mAreaBackground);
+                mAreaBitmap = drawable2Bitmap(areaBackground);
                 mAreaBackgroundMode = AREA_BACKGROUND_MODE_XML;
-            } else if (mAreaBackground instanceof ColorDrawable) {
+            } else if (areaBackground instanceof ColorDrawable) {
                 // 色值
-                mAreaColor = ((ColorDrawable) mAreaBackground).getColor();
+                mAreaColor = ((ColorDrawable) areaBackground).getColor();
                 mAreaBackgroundMode = AREA_BACKGROUND_MODE_COLOR;
             } else {
                 // 其他形式
@@ -151,20 +148,20 @@ public class RockerView extends View {
             mAreaBackgroundMode = AREA_BACKGROUND_MODE_DEFAULT;
         }
         // 摇杆背景
-        mRockerBackground = typedArray.getDrawable(R.styleable.RockerView_rockerBackground);
-        if (null != mRockerBackground) {
+        Drawable rockerBackground = typedArray.getDrawable(R.styleable.RockerView_rockerBackground);
+        if (null != rockerBackground) {
             // 设置了摇杆背景
-            if (mRockerBackground instanceof BitmapDrawable) {
+            if (rockerBackground instanceof BitmapDrawable) {
                 // 图片
-                mRockerBitmap = ((BitmapDrawable) mRockerBackground).getBitmap();
+                mRockerBitmap = ((BitmapDrawable) rockerBackground).getBitmap();
                 mRockerBackgroundMode = ROCKER_BACKGROUND_MODE_PIC;
-            } else if (mRockerBackground instanceof GradientDrawable) {
+            } else if (rockerBackground instanceof GradientDrawable) {
                 // XML
-                mRockerBitmap = drawable2Bitmap(mRockerBackground);
+                mRockerBitmap = drawable2Bitmap(rockerBackground);
                 mRockerBackgroundMode = ROCKER_BACKGROUND_MODE_XML;
-            } else if (mRockerBackground instanceof ColorDrawable) {
+            } else if (rockerBackground instanceof ColorDrawable) {
                 // 色值
-                mRockerColor = ((ColorDrawable) mRockerBackground).getColor();
+                mRockerColor = ((ColorDrawable) rockerBackground).getColor();
                 mRockerBackgroundMode = ROCKER_BACKGROUND_MODE_COLOR;
             } else {
                 // 其他形式
@@ -178,7 +175,7 @@ public class RockerView extends View {
         // 摇杆半径
         mRockerRadius = typedArray.getDimensionPixelOffset(R.styleable.RockerView_rockerRadius, DEFAULT_ROCKER_RADIUS);
 
-        Logger.i(TAG, "initAttribute: mAreaBackground = " + mAreaBackground + "   mRockerBackground = " + mRockerBackground + "  mRockerRadius = " + mRockerRadius);
+        Logger.i(TAG, "initAttribute: mAreaBackground = " + areaBackground + "   mRockerBackground = " + rockerBackground + "  mRockerRadius = " + mRockerRadius);
         typedArray.recycle();
     }
 
@@ -588,7 +585,6 @@ public class RockerView extends View {
             mOnShakeListener.onFinish();
         }
     }
-
 
     /**
      * 回调模式

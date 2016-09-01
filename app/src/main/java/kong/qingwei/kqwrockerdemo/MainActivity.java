@@ -8,29 +8,53 @@ import kong.qingwei.rockerlibrary.RockerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mLog;
+    private TextView mLogLeft;
+    private TextView mLogRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mLog = (TextView) findViewById(R.id.log);
-        RockerView rockerView = (RockerView) findViewById(R.id.rockerView);
-        if (rockerView != null) {
-            rockerView.setOnShakeListener(RockerView.DirectionMode.DIRECTION_8, new RockerView.OnShakeListener() {
+        mLogLeft = (TextView) findViewById(R.id.log_left);
+        mLogRight = (TextView) findViewById(R.id.log_right);
+
+        RockerView rockerViewLeft = (RockerView) findViewById(R.id.rockerView_left);
+        if (rockerViewLeft != null) {
+            rockerViewLeft.setCallBackMode(RockerView.CallBackMode.CALL_BACK_MODE_STATE_CHANGE);
+            rockerViewLeft.setOnShakeListener(RockerView.DirectionMode.DIRECTION_8, new RockerView.OnShakeListener() {
                 @Override
                 public void onStart() {
-                    mLog.setText(null);
+                    mLogLeft.setText(null);
                 }
 
                 @Override
                 public void direction(RockerView.Direction direction) {
-                    mLog.setText(getDirection(direction));
+                    mLogLeft.setText("摇动方向 : " + getDirection(direction));
                 }
 
                 @Override
                 public void onFinish() {
-                    mLog.setText(null);
+                    mLogLeft.setText(null);
+                }
+            });
+        }
+
+        RockerView rockerViewRight = (RockerView) findViewById(R.id.rockerView_right);
+        if (rockerViewRight != null) {
+            rockerViewRight.setOnAngleChangeListener(new RockerView.OnAngleChangeListener() {
+                @Override
+                public void onStart() {
+                    mLogRight.setText(null);
+                }
+
+                @Override
+                public void angle(double angle) {
+                    mLogRight.setText("摇动角度 : " + angle);
+                }
+
+                @Override
+                public void onFinish() {
+                    mLogRight.setText(null);
                 }
             });
         }
