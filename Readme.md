@@ -28,7 +28,7 @@ Step 2. Add the dependency
 
 ``` gradle
 dependencies {
-        compile 'com.github.kongqw:KqwRockerDemo:1.0.1'
+        compile 'com.github.kongqw:AndroidRocker:1.0.1'
 }
 ```
 
