@@ -1,6 +1,4 @@
-package kong.qingwei.rockerlibrary;
-
-import android.util.Log;
+package com.kongqw.rockerlibrary;
 
 /**
  * Created by kqw on 2016/9/1.

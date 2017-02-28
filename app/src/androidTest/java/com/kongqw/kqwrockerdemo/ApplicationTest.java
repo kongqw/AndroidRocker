@@ -1,4 +1,4 @@
-package kong.qingwei.kqwrockerdemo;
+package com.kongqw.kqwrockerdemo;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

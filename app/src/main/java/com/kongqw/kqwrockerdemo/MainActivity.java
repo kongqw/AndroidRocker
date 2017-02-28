@@ -1,10 +1,10 @@
-package kong.qingwei.kqwrockerdemo;
+package com.kongqw.kqwrockerdemo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import kong.qingwei.rockerlibrary.RockerView;
+import com.kongqw.rockerlibrary.view.RockerView;
 
 public class MainActivity extends AppCompatActivity {
 

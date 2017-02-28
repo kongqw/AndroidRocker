@@ -1,4 +1,4 @@
-package kong.qingwei.rockerlibrary;
+package com.kongqw.rockerlibrary.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -16,6 +16,9 @@ import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.kongqw.rockerlibrary.Logger;
+import com.kongqw.rockerlibrary.R;
 
 /**
  * Created by kqw on 2016/8/30.

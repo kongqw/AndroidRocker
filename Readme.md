@@ -5,6 +5,108 @@
 
 ---
 
+[![](https://jitpack.io/v/kongqw/KqwRockerDemo.svg)](https://jitpack.io/#kongqw/KqwRockerDemo)
+
+# 部署
+
+To get a Git project into your build:
+
+Step 1. Add the JitPack repository to your build file
+
+Add it in your root build.gradle at the end of repositories:
+
+``` gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+Step 2. Add the dependency
+
+``` gradle
+dependencies {
+        compile 'com.github.kongqw:KqwRockerDemo:1.0.0'
+}
+```
+
+# 使用
+
+## XML
+
+``` xml
+<com.kongqw.rockerlibrary.view.RockerView
+    android:id="@+id/rockerView"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    kongqw:areaBackground="@drawable/default_area_bg"
+    kongqw:rockerBackground="@drawable/default_rocker_bg"
+    kongqw:rockerRadius="30dp" />
+```
+
+## Activity
+
+### 初始化
+
+``` java
+RockerView rockerView = (RockerView) findViewById(R.id.rockerView);
+```
+
+### 设置回调模式
+
+``` java
+// 设置回调模式
+rockerView.setCallBackMode(RockerView.CallBackMode.CALL_BACK_MODE_STATE_CHANGE);
+```
+
+### 监听摇动方向
+
+``` java
+// 监听摇动方向
+rockerView.setOnShakeListener(RockerView.DirectionMode.DIRECTION_8, new RockerView.OnShakeListener() {
+    @Override
+    public void onStart() {
+        mLogLeft.setText(null);
+    }
+
+    @Override
+    public void direction(RockerView.Direction direction) {
+        mLogLeft.setText("摇动方向 : " + getDirection(direction));
+    }
+
+    @Override
+    public void onFinish() {
+        mLogLeft.setText(null);
+    }
+});
+```
+
+### 监听摇动角度
+
+``` java
+// 监听摇动角度
+rockerViewRight.setOnAngleChangeListener(new RockerView.OnAngleChangeListener() {
+    @Override
+    public void onStart() {
+        mLogRight.setText(null);
+    }
+
+    @Override
+    public void angle(double angle) {
+        mLogRight.setText("摇动角度 : " + angle);
+    }
+
+    @Override
+    public void onFinish() {
+        mLogRight.setText(null);
+    }
+});
+```
+
+-------------------------
+
 # 效果图
 
 ![效果图](http://img.blog.csdn.net/20160901182847783)

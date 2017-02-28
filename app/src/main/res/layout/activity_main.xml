@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="30dp">
 
-    <kong.qingwei.rockerlibrary.RockerView
+    <com.kongqw.rockerlibrary.view.RockerView
         android:id="@+id/rockerView_left"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -27,7 +27,7 @@
         android:layout_above="@id/log_left"
         android:text="支持8个方向的摇杆\n自定义Shape" />
 
-    <kong.qingwei.rockerlibrary.RockerView
+    <com.kongqw.rockerlibrary.view.RockerView
         android:id="@+id/rockerView_right"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -52,7 +52,7 @@
         android:layout_alignParentRight="true"
         android:text="获取到摇动角度（可自定义方向）\n自定义图片" />
 
-    <kong.qingwei.rockerlibrary.RockerView
+    <com.kongqw.rockerlibrary.view.RockerView
         android:id="@+id/rockerView_center"
         android:layout_width="100dp"
         android:layout_height="100dp"

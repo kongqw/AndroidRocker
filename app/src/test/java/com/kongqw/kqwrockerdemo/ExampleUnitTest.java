@@ -1,4 +1,4 @@
-package kong.qingwei.kqwrockerdemo;
+package com.kongqw.kqwrockerdemo;
 
 import org.junit.Test;
 
