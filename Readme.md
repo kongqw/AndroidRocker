@@ -5,7 +5,7 @@
 
 ---
 
-[![](https://jitpack.io/v/kongqw/KqwRockerDemo.svg)](https://jitpack.io/#kongqw/KqwRockerDemo)
+[![](https://jitpack.io/v/kongqw/AndroidRocker.svg)](https://jitpack.io/#kongqw/AndroidRocker)
 
 # 部署
 
