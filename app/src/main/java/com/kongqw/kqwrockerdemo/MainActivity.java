@@ -18,9 +18,12 @@ public class MainActivity extends AppCompatActivity {
         mLogLeft = (TextView) findViewById(R.id.log_left);
         mLogRight = (TextView) findViewById(R.id.log_right);
 
+        //初始化
         RockerView rockerViewLeft = (RockerView) findViewById(R.id.rockerView_left);
         if (rockerViewLeft != null) {
+            //设置回调模式
             rockerViewLeft.setCallBackMode(RockerView.CallBackMode.CALL_BACK_MODE_STATE_CHANGE);
+            // 监听摇动方向
             rockerViewLeft.setOnShakeListener(RockerView.DirectionMode.DIRECTION_8, new RockerView.OnShakeListener() {
                 @Override
                 public void onStart() {
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         RockerView rockerViewRight = (RockerView) findViewById(R.id.rockerView_right);
         if (rockerViewRight != null) {
+            // 监听摇动角度
             rockerViewRight.setOnAngleChangeListener(new RockerView.OnAngleChangeListener() {
                 @Override
                 public void onStart() {
