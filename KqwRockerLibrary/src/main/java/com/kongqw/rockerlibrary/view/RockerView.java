@@ -3,6 +3,7 @@ package com.kongqw.rockerlibrary.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -32,6 +33,11 @@ public class RockerView extends View {
 
     private Paint mAreaBackgroundPaint;
     private Paint mRockerPaint;
+
+    // 上下左右的滑动到对应区域的光线
+    private Bitmap leftLight, rightLight, topLight, bottomLight;
+    // 绘制 上下左右的滑动到对应区域的光线 的画笔
+    private Paint mCirclePaint;
 
     private Point mRockerPosition;
     private Point mCenterPoint;
@@ -92,7 +98,6 @@ public class RockerView extends View {
     private Bitmap mRockerBitmap;
     private int mRockerColor;
 
-
     public RockerView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -111,10 +116,20 @@ public class RockerView extends View {
         mRockerPaint = new Paint();
         mRockerPaint.setAntiAlias(true);
 
+        //  绘制 上下左右的滑动到对应区域的光线 的画笔
+        mCirclePaint = new Paint();
+        mCirclePaint.setAntiAlias(true);
+
         // 中心点
         mCenterPoint = new Point();
         // 摇杆位置
         mRockerPosition = new Point();
+
+        //上下左右的滑动到对应区域的光线
+        leftLight = BitmapFactory.decodeResource(context.getResources(), R.drawable.left_move_light);
+        rightLight = BitmapFactory.decodeResource(context.getResources(), R.drawable.right_move_light);
+        topLight = BitmapFactory.decodeResource(context.getResources(), R.drawable.top_move_light);
+        bottomLight = BitmapFactory.decodeResource(context.getResources(), R.drawable.bottom_move_light);
     }
 
     /**
@@ -150,6 +165,7 @@ public class RockerView extends View {
             // 没有设置背景
             mAreaBackgroundMode = AREA_BACKGROUND_MODE_DEFAULT;
         }
+
         // 摇杆背景
         Drawable rockerBackground = typedArray.getDrawable(R.styleable.RockerView_rockerBackground);
         if (null != rockerBackground) {
@@ -246,7 +262,7 @@ public class RockerView extends View {
             canvas.drawCircle(mCenterPoint.x, mCenterPoint.y, mAreaRadius, mAreaBackgroundPaint);
         }
 
-        // 画摇杆
+        // 画摇杆背景
         if (ROCKER_BACKGROUND_MODE_PIC == mRockerBackgroundMode || ROCKER_BACKGROUND_MODE_XML == mRockerBackgroundMode) {
             // 图片
             Rect src = new Rect(0, 0, mRockerBitmap.getWidth(), mRockerBitmap.getHeight());
@@ -260,6 +276,26 @@ public class RockerView extends View {
             // 其他或者未设置
             mRockerPaint.setColor(Color.RED);
             canvas.drawCircle(mRockerPosition.x, mRockerPosition.y, mRockerRadius, mRockerPaint);
+        }
+
+        //根据点的位置来画摇杆外围光圈    方位会在滑动过程中动态计算
+        if (mDirectionMode == DirectionMode.DIRECTION_4_ROTATE_0 || mDirectionMode == DirectionMode.DIRECTION_8) {
+            switch (tempDirection) {
+                case DIRECTION_LEFT:
+                    canvas.drawBitmap(leftLight, 0, (getHeight() - leftLight.getHeight()) / 2, mCirclePaint);
+                    break;
+                case DIRECTION_UP:
+                    canvas.drawBitmap(topLight, (getWidth() - topLight.getWidth()) / 2, 0, mCirclePaint);
+                    break;
+                case DIRECTION_RIGHT:
+                    canvas.drawBitmap(rightLight, getWidth() - rightLight.getWidth(), (getHeight() - rightLight.getHeight()) / 2, mCirclePaint);
+                    break;
+                case DIRECTION_DOWN:
+                    canvas.drawBitmap(bottomLight, (getWidth() - bottomLight.getWidth()) / 2, getWidth() - bottomLight.getHeight(), mCirclePaint);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -286,6 +322,27 @@ public class RockerView extends View {
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (topLight != null) {
+            topLight.recycle();
+            topLight = null;
+        }
+        if (rightLight != null) {
+            rightLight.recycle();
+            rightLight = null;
+        }
+        if (leftLight != null) {
+            leftLight.recycle();
+            leftLight = null;
+        }
+        if (bottomLight != null) {
+            bottomLight.recycle();
+            bottomLight = null;
+        }
     }
 
     /**
