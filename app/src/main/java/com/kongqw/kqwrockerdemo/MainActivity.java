@@ -2,12 +2,14 @@ package com.kongqw.kqwrockerdemo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.kongqw.rockerlibrary.view.RockerView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private TextView mLogLeft;
     private TextView mLogRight;
 
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             //设置回调模式
             rockerViewLeft.setCallBackMode(RockerView.CallBackMode.CALL_BACK_MODE_STATE_CHANGE);
             // 监听摇动方向
-            rockerViewLeft.setOnShakeListener(RockerView.DirectionMode.DIRECTION_8, new RockerView.OnShakeListener() {
+            rockerViewLeft.setOnShakeListener(RockerView.DirectionMode.DIRECTION_4_ROTATE_45, new RockerView.OnShakeListener() {
                 @Override
                 public void onStart() {
                     mLogLeft.setText(null);
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void direction(RockerView.Direction direction) {
                     mLogLeft.setText("摇动方向 : " + getDirection(direction));
+                    Log.d(TAG,"摇动方向 : " + getDirection(direction));
                 }
 
                 @Override
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void angle(double angle) {
                     mLogRight.setText("摇动角度 : " + angle);
+                    Log.d(TAG,"摇动角度 : " + angle);
                 }
 
                 @Override
