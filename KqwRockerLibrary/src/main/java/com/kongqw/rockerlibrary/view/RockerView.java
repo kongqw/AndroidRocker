@@ -3,7 +3,6 @@ package com.kongqw.rockerlibrary.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -35,10 +34,6 @@ public class RockerView extends View {
     private Paint mAreaBackgroundPaint;
     private Paint mRockerPaint;
 
-    // 上下左右的滑动到对应区域的光线
-    private Bitmap leftLight, rightLight, topLight, bottomLight;
-    // 绘制 上下左右的滑动到对应区域的光线 的画笔
-    private Paint mCirclePaint;
     // 绘制 跟随手势移动的光环 的画笔
     private Paint mArcPaint;
     // 摇杆滑动的角度
@@ -121,10 +116,6 @@ public class RockerView extends View {
         mRockerPaint = new Paint();
         mRockerPaint.setAntiAlias(true);
 
-        //  绘制 上下左右的滑动到对应区域的光线 的画笔
-        mCirclePaint = new Paint();
-        mCirclePaint.setAntiAlias(true);
-
         //  绘制  跟随手势移动的光环 的画笔
         mArcPaint = new Paint();
         mArcPaint.setAntiAlias(true);               //使用抗锯齿功能
@@ -136,12 +127,6 @@ public class RockerView extends View {
         mCenterPoint = new Point();
         // 摇杆位置
         mRockerPosition = new Point();
-
-        //上下左右的滑动到对应区域的光线
-        leftLight = BitmapFactory.decodeResource(context.getResources(), R.drawable.left_move_light);
-        rightLight = BitmapFactory.decodeResource(context.getResources(), R.drawable.right_move_light);
-        topLight = BitmapFactory.decodeResource(context.getResources(), R.drawable.top_move_light);
-        bottomLight = BitmapFactory.decodeResource(context.getResources(), R.drawable.bottom_move_light);
     }
 
     /**
@@ -290,31 +275,12 @@ public class RockerView extends View {
             canvas.drawCircle(mRockerPosition.x, mRockerPosition.y, mRockerRadius, mRockerPaint);
         }
 
-        //根据点的位置来画摇杆外围光圈    方位会在滑动过程中动态计算
-        if (mDirectionMode == DirectionMode.DIRECTION_4_ROTATE_0 || mDirectionMode == DirectionMode.DIRECTION_8) {
-            switch (tempDirection) {
-                case DIRECTION_LEFT:
-                    canvas.drawBitmap(leftLight, 0, (getHeight() - leftLight.getHeight()) / 2, mCirclePaint);
-                    break;
-                case DIRECTION_UP:
-                    canvas.drawBitmap(topLight, (getWidth() - topLight.getWidth()) / 2, 0, mCirclePaint);
-                    break;
-                case DIRECTION_RIGHT:
-                    canvas.drawBitmap(rightLight, getWidth() - rightLight.getWidth(), (getHeight() - rightLight.getHeight()) / 2, mCirclePaint);
-                    break;
-                case DIRECTION_DOWN:
-                    canvas.drawBitmap(bottomLight, (getWidth() - bottomLight.getWidth()) / 2, getWidth() - bottomLight.getHeight(), mCirclePaint);
-                    break;
-                default:
-                    break;
-            }
-        }
-
         // 绘制跟随手势移动的光环
         if(angle > 0) {
             RectF oval = new RectF( 0, 0, getWidth(), getHeight());
             float mAngle = (float) angle;
-            canvas.drawArc(oval, mAngle, 45, false, mArcPaint);//绘制圆弧，不含圆心
+            // 使移动的光环圆弧  紧跟着滑动滑动的角度，并且使角度在圆弧中间
+            canvas.drawArc(oval, mAngle - 30, 60, false, mArcPaint);//绘制圆弧，不含圆心
         }
     }
 
@@ -341,27 +307,6 @@ public class RockerView extends View {
                 break;
         }
         return true;
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        if (topLight != null) {
-            topLight.recycle();
-            topLight = null;
-        }
-        if (rightLight != null) {
-            rightLight.recycle();
-            rightLight = null;
-        }
-        if (leftLight != null) {
-            leftLight.recycle();
-            leftLight = null;
-        }
-        if (bottomLight != null) {
-            bottomLight.recycle();
-            bottomLight = null;
-        }
     }
 
     /**
