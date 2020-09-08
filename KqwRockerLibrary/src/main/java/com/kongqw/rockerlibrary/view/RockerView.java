@@ -419,191 +419,202 @@ public class RockerView extends View {
      * @param angle 摇动角度
      */
     private void callBack(double angle) {
+        // 角度直接回调
         if (null != mOnAngleChangeListener) {
             mOnAngleChangeListener.angle(angle);
         }
+        // 方向的还得做一系列的逻辑判断
         if (null != mOnShakeListener) {
             if (CallBackMode.CALL_BACK_MODE_MOVE == mCallBackMode) {
-                switch (mDirectionMode) {
-                    case DIRECTION_2_HORIZONTAL:// 左右方向
-                        if (ANGLE_0 <= angle && ANGLE_HORIZONTAL_2D_OF_0P > angle || ANGLE_HORIZONTAL_2D_OF_1P <= angle && ANGLE_360 > angle) {
-                            // 右
-                            mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
-                        } else if (ANGLE_HORIZONTAL_2D_OF_0P <= angle && ANGLE_HORIZONTAL_2D_OF_1P > angle) {
-                            // 左
-                            mOnShakeListener.direction(Direction.DIRECTION_LEFT);
-                        }
-                        break;
-                    case DIRECTION_2_VERTICAL:// 上下方向
-                        if (ANGLE_VERTICAL_2D_OF_0P <= angle && ANGLE_VERTICAL_2D_OF_1P > angle) {
-                            // 下
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN);
-                        } else if (ANGLE_VERTICAL_2D_OF_1P <= angle && ANGLE_360 > angle) {
-                            // 上
-                            mOnShakeListener.direction(Direction.DIRECTION_UP);
-                        }
-                        break;
-                    case DIRECTION_4_ROTATE_0:// 四个方向
-                        if (ANGLE_4D_OF_0P <= angle && ANGLE_4D_OF_1P > angle) {
-                            // 右下
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN_RIGHT);
-                        } else if (ANGLE_4D_OF_1P <= angle && ANGLE_4D_OF_2P > angle) {
-                            // 左下
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN_LEFT);
-                        } else if (ANGLE_4D_OF_2P <= angle && ANGLE_4D_OF_3P > angle) {
-                            // 左上
-                            mOnShakeListener.direction(Direction.DIRECTION_UP_LEFT);
-                        } else if (ANGLE_4D_OF_3P <= angle && ANGLE_360 > angle) {
-                            // 右上
-                            mOnShakeListener.direction(Direction.DIRECTION_UP_RIGHT);
-                        }
-                        break;
-                    case DIRECTION_4_ROTATE_45:// 四个方向 旋转45度
-                        if (ANGLE_0 <= angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) {
-                            // 右
-                            mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
-                        } else if (ANGLE_ROTATE45_4D_OF_0P <= angle && ANGLE_ROTATE45_4D_OF_1P > angle) {
-                            // 下
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN);
-                        } else if (ANGLE_ROTATE45_4D_OF_1P <= angle && ANGLE_ROTATE45_4D_OF_2P > angle) {
-                            // 左
-                            mOnShakeListener.direction(Direction.DIRECTION_LEFT);
-                        } else if (ANGLE_ROTATE45_4D_OF_2P <= angle && ANGLE_ROTATE45_4D_OF_3P > angle) {
-                            // 上
-                            mOnShakeListener.direction(Direction.DIRECTION_UP);
-                        }
-                        break;
-                    case DIRECTION_8:// 八个方向
-                        if (ANGLE_0 <= angle && ANGLE_8D_OF_0P > angle || ANGLE_8D_OF_7P <= angle && ANGLE_360 > angle) {
-                            // 右
-                            mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
-                        } else if (ANGLE_8D_OF_0P <= angle && ANGLE_8D_OF_1P > angle) {
-                            // 右下
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN_RIGHT);
-                        } else if (ANGLE_8D_OF_1P <= angle && ANGLE_8D_OF_2P > angle) {
-                            // 下
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN);
-                        } else if (ANGLE_8D_OF_2P <= angle && ANGLE_8D_OF_3P > angle) {
-                            // 左下
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN_LEFT);
-                        } else if (ANGLE_8D_OF_3P <= angle && ANGLE_8D_OF_4P > angle) {
-                            // 左
-                            mOnShakeListener.direction(Direction.DIRECTION_LEFT);
-                        } else if (ANGLE_8D_OF_4P <= angle && ANGLE_8D_OF_5P > angle) {
-                            // 左上
-                            mOnShakeListener.direction(Direction.DIRECTION_UP_LEFT);
-                        } else if (ANGLE_8D_OF_5P <= angle && ANGLE_8D_OF_6P > angle) {
-                            // 上
-                            mOnShakeListener.direction(Direction.DIRECTION_UP);
-                        } else if (ANGLE_8D_OF_6P <= angle && ANGLE_8D_OF_7P > angle) {
-                            // 右上
-                            mOnShakeListener.direction(Direction.DIRECTION_UP_RIGHT);
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                dealCallBackModeMove(angle);
             } else if (CallBackMode.CALL_BACK_MODE_STATE_CHANGE == mCallBackMode) {
-                switch (mDirectionMode) {
-                    case DIRECTION_2_HORIZONTAL:// 左右方向
-                        if ((ANGLE_0 <= angle && ANGLE_HORIZONTAL_2D_OF_0P > angle || ANGLE_HORIZONTAL_2D_OF_1P <= angle && ANGLE_360 > angle) && tempDirection != Direction.DIRECTION_RIGHT) {
-                            // 右
-                            tempDirection = Direction.DIRECTION_RIGHT;
-                            mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
-                        } else if (ANGLE_HORIZONTAL_2D_OF_0P <= angle && ANGLE_HORIZONTAL_2D_OF_1P > angle && tempDirection != Direction.DIRECTION_LEFT) {
-                            // 左
-                            tempDirection = Direction.DIRECTION_LEFT;
-                            mOnShakeListener.direction(Direction.DIRECTION_LEFT);
-                        }
-                        break;
-                    case DIRECTION_2_VERTICAL:// 上下方向
-                        if (ANGLE_VERTICAL_2D_OF_0P <= angle && ANGLE_VERTICAL_2D_OF_1P > angle && tempDirection != Direction.DIRECTION_DOWN) {
-                            // 下
-                            tempDirection = Direction.DIRECTION_DOWN;
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN);
-                        } else if (ANGLE_VERTICAL_2D_OF_1P <= angle && ANGLE_360 > angle && tempDirection != Direction.DIRECTION_UP) {
-                            // 上
-                            tempDirection = Direction.DIRECTION_UP;
-                            mOnShakeListener.direction(Direction.DIRECTION_UP);
-                        }
-                        break;
-                    case DIRECTION_4_ROTATE_0:// 四个方向
-                        if (ANGLE_4D_OF_0P <= angle && ANGLE_4D_OF_1P > angle && tempDirection != Direction.DIRECTION_DOWN_RIGHT) {
-                            // 右下
-                            tempDirection = Direction.DIRECTION_DOWN_RIGHT;
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN_RIGHT);
-                        } else if (ANGLE_4D_OF_1P <= angle && ANGLE_4D_OF_2P > angle && tempDirection != Direction.DIRECTION_DOWN_LEFT) {
-                            // 左下
-                            tempDirection = Direction.DIRECTION_DOWN_LEFT;
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN_LEFT);
-                        } else if (ANGLE_4D_OF_2P <= angle && ANGLE_4D_OF_3P > angle && tempDirection != Direction.DIRECTION_UP_LEFT) {
-                            // 左上
-                            tempDirection = Direction.DIRECTION_UP_LEFT;
-                            mOnShakeListener.direction(Direction.DIRECTION_UP_LEFT);
-                        } else if (ANGLE_4D_OF_3P <= angle && ANGLE_360 > angle && tempDirection != Direction.DIRECTION_UP_RIGHT) {
-                            // 右上
-                            tempDirection = Direction.DIRECTION_UP_RIGHT;
-                            mOnShakeListener.direction(Direction.DIRECTION_UP_RIGHT);
-                        }
-                        break;
-                    case DIRECTION_4_ROTATE_45:// 四个方向 旋转45度
-                        if ((ANGLE_0 <= angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) && tempDirection != Direction.DIRECTION_RIGHT) {
-                            // 右
-                            tempDirection = Direction.DIRECTION_RIGHT;
-                            mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
-                        } else if (ANGLE_ROTATE45_4D_OF_0P <= angle && ANGLE_ROTATE45_4D_OF_1P > angle && tempDirection != Direction.DIRECTION_DOWN) {
-                            // 下
-                            tempDirection = Direction.DIRECTION_DOWN;
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN);
-                        } else if (ANGLE_ROTATE45_4D_OF_1P <= angle && ANGLE_ROTATE45_4D_OF_2P > angle && tempDirection != Direction.DIRECTION_LEFT) {
-                            // 左
-                            tempDirection = Direction.DIRECTION_LEFT;
-                            mOnShakeListener.direction(Direction.DIRECTION_LEFT);
-                        } else if (ANGLE_ROTATE45_4D_OF_2P <= angle && ANGLE_ROTATE45_4D_OF_3P > angle && tempDirection != Direction.DIRECTION_UP) {
-                            // 上
-                            tempDirection = Direction.DIRECTION_UP;
-                            mOnShakeListener.direction(Direction.DIRECTION_UP);
-                        }
-                        break;
-                    case DIRECTION_8:// 八个方向
-                        if ((ANGLE_0 <= angle && ANGLE_8D_OF_0P > angle || ANGLE_8D_OF_7P <= angle && ANGLE_360 > angle) && tempDirection != Direction.DIRECTION_RIGHT) {
-                            // 右
-                            tempDirection = Direction.DIRECTION_RIGHT;
-                            mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
-                        } else if (ANGLE_8D_OF_0P <= angle && ANGLE_8D_OF_1P > angle && tempDirection != Direction.DIRECTION_DOWN_RIGHT) {
-                            // 右下
-                            tempDirection = Direction.DIRECTION_DOWN_RIGHT;
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN_RIGHT);
-                        } else if (ANGLE_8D_OF_1P <= angle && ANGLE_8D_OF_2P > angle && tempDirection != Direction.DIRECTION_DOWN) {
-                            // 下
-                            tempDirection = Direction.DIRECTION_DOWN;
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN);
-                        } else if (ANGLE_8D_OF_2P <= angle && ANGLE_8D_OF_3P > angle && tempDirection != Direction.DIRECTION_DOWN_LEFT) {
-                            // 左下
-                            tempDirection = Direction.DIRECTION_DOWN_LEFT;
-                            mOnShakeListener.direction(Direction.DIRECTION_DOWN_LEFT);
-                        } else if (ANGLE_8D_OF_3P <= angle && ANGLE_8D_OF_4P > angle && tempDirection != Direction.DIRECTION_LEFT) {
-                            // 左
-                            tempDirection = Direction.DIRECTION_LEFT;
-                            mOnShakeListener.direction(Direction.DIRECTION_LEFT);
-                        } else if (ANGLE_8D_OF_4P <= angle && ANGLE_8D_OF_5P > angle && tempDirection != Direction.DIRECTION_UP_LEFT) {
-                            // 左上
-                            tempDirection = Direction.DIRECTION_UP_LEFT;
-                            mOnShakeListener.direction(Direction.DIRECTION_UP_LEFT);
-                        } else if (ANGLE_8D_OF_5P <= angle && ANGLE_8D_OF_6P > angle && tempDirection != Direction.DIRECTION_UP) {
-                            // 上
-                            tempDirection = Direction.DIRECTION_UP;
-                            mOnShakeListener.direction(Direction.DIRECTION_UP);
-                        } else if (ANGLE_8D_OF_6P <= angle && ANGLE_8D_OF_7P > angle && tempDirection != Direction.DIRECTION_UP_RIGHT) {
-                            // 右上
-                            tempDirection = Direction.DIRECTION_UP_RIGHT;
-                            mOnShakeListener.direction(Direction.DIRECTION_UP_RIGHT);
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                dealCallBackModeStateChange(angle);
             }
+        }
+    }
+
+
+    private void dealCallBackModeMove(double angle) {
+        switch (mDirectionMode) {
+            case DIRECTION_2_HORIZONTAL:// 横向 左右两个方向
+                if (ANGLE_0 <= angle && ANGLE_HORIZONTAL_2D_OF_0P > angle || ANGLE_HORIZONTAL_2D_OF_1P <= angle && ANGLE_360 > angle) {  //0-90度和270度-360度
+                    // 右
+                    mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
+                } else if (ANGLE_HORIZONTAL_2D_OF_0P <= angle && ANGLE_HORIZONTAL_2D_OF_1P > angle) {   //90度-270度
+                    // 左
+                    mOnShakeListener.direction(Direction.DIRECTION_LEFT);
+                }
+                break;
+            case DIRECTION_2_VERTICAL:// 纵向 上下两个方向
+                if (ANGLE_VERTICAL_2D_OF_0P <= angle && ANGLE_VERTICAL_2D_OF_1P > angle) {  // 0度到-180度
+                    // 下
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN);
+                } else if (ANGLE_VERTICAL_2D_OF_1P <= angle && ANGLE_360 > angle) {  // 180度到-360度
+                    // 上
+                    mOnShakeListener.direction(Direction.DIRECTION_UP);
+                }
+                break;
+            case DIRECTION_4_ROTATE_0:// 四个方向
+                if (ANGLE_4D_OF_0P <= angle && ANGLE_4D_OF_1P > angle) {  // 0度到-90度
+                    // 右下
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN_RIGHT);
+                } else if (ANGLE_4D_OF_1P <= angle && ANGLE_4D_OF_2P > angle) { // 90度到-180度
+                    // 左下
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN_LEFT);
+                } else if (ANGLE_4D_OF_2P <= angle && ANGLE_4D_OF_3P > angle) { // 180度到-270度
+                    // 左上
+                    mOnShakeListener.direction(Direction.DIRECTION_UP_LEFT);
+                } else if (ANGLE_4D_OF_3P <= angle && ANGLE_360 > angle) {  // 270度到-360度
+                    // 右上
+                    mOnShakeListener.direction(Direction.DIRECTION_UP_RIGHT);
+                }
+                break;
+            case DIRECTION_4_ROTATE_45:// 四个方向 旋转45度
+                if (ANGLE_0 <= angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) { //0-45度和315度-360度
+                    // 右
+                    mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
+                } else if (ANGLE_ROTATE45_4D_OF_0P <= angle && ANGLE_ROTATE45_4D_OF_1P > angle) {   //45度-135度
+                    // 下
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN);
+                } else if (ANGLE_ROTATE45_4D_OF_1P <= angle && ANGLE_ROTATE45_4D_OF_2P > angle) { //135度-225度
+                    // 左
+                    mOnShakeListener.direction(Direction.DIRECTION_LEFT);
+                } else if (ANGLE_ROTATE45_4D_OF_2P <= angle && ANGLE_ROTATE45_4D_OF_3P > angle) { //225度-315度
+                    // 上
+                    mOnShakeListener.direction(Direction.DIRECTION_UP);
+                }
+                break;
+            case DIRECTION_8:// 八个方向
+                if (ANGLE_0 <= angle && ANGLE_8D_OF_0P > angle || ANGLE_8D_OF_7P <= angle && ANGLE_360 > angle) {   //0-22.5度和337.5度-360度
+                    // 右
+                    mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
+                } else if (ANGLE_8D_OF_0P <= angle && ANGLE_8D_OF_1P > angle) { //22.5度 - 67.5度
+                    // 右下
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN_RIGHT);
+                } else if (ANGLE_8D_OF_1P <= angle && ANGLE_8D_OF_2P > angle) {// 67.5度 - 112.5度
+                    // 下
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN);
+                } else if (ANGLE_8D_OF_2P <= angle && ANGLE_8D_OF_3P > angle) {//  112.5度 - 157.5度
+                    // 左下
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN_LEFT);
+                } else if (ANGLE_8D_OF_3P <= angle && ANGLE_8D_OF_4P > angle) {// 157.5度 -  202.5度
+                    // 左
+                    mOnShakeListener.direction(Direction.DIRECTION_LEFT);
+                } else if (ANGLE_8D_OF_4P <= angle && ANGLE_8D_OF_5P > angle) {// 202.5度 -  247.5度
+                    // 左上
+                    mOnShakeListener.direction(Direction.DIRECTION_UP_LEFT);
+                } else if (ANGLE_8D_OF_5P <= angle && ANGLE_8D_OF_6P > angle) {//  247.5度 - 292.5度
+                    // 上
+                    mOnShakeListener.direction(Direction.DIRECTION_UP);
+                } else if (ANGLE_8D_OF_6P <= angle && ANGLE_8D_OF_7P > angle) {//  292.5度 - 337.5度
+                    // 右上
+                    mOnShakeListener.direction(Direction.DIRECTION_UP_RIGHT);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void dealCallBackModeStateChange(double angle) {
+        switch (mDirectionMode) {
+            case DIRECTION_2_HORIZONTAL:// 左右方向
+                if ((ANGLE_0 <= angle && ANGLE_HORIZONTAL_2D_OF_0P > angle || ANGLE_HORIZONTAL_2D_OF_1P <= angle && ANGLE_360 > angle) && tempDirection != Direction.DIRECTION_RIGHT) {
+                    // 右
+                    tempDirection = Direction.DIRECTION_RIGHT;
+                    mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
+                } else if (ANGLE_HORIZONTAL_2D_OF_0P <= angle && ANGLE_HORIZONTAL_2D_OF_1P > angle && tempDirection != Direction.DIRECTION_LEFT) {
+                    // 左
+                    tempDirection = Direction.DIRECTION_LEFT;
+                    mOnShakeListener.direction(Direction.DIRECTION_LEFT);
+                }
+                break;
+            case DIRECTION_2_VERTICAL:// 上下方向
+                if (ANGLE_VERTICAL_2D_OF_0P <= angle && ANGLE_VERTICAL_2D_OF_1P > angle && tempDirection != Direction.DIRECTION_DOWN) {
+                    // 下
+                    tempDirection = Direction.DIRECTION_DOWN;
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN);
+                } else if (ANGLE_VERTICAL_2D_OF_1P <= angle && ANGLE_360 > angle && tempDirection != Direction.DIRECTION_UP) {
+                    // 上
+                    tempDirection = Direction.DIRECTION_UP;
+                    mOnShakeListener.direction(Direction.DIRECTION_UP);
+                }
+                break;
+            case DIRECTION_4_ROTATE_0:// 四个方向
+                if (ANGLE_4D_OF_0P <= angle && ANGLE_4D_OF_1P > angle && tempDirection != Direction.DIRECTION_DOWN_RIGHT) {
+                    // 右下
+                    tempDirection = Direction.DIRECTION_DOWN_RIGHT;
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN_RIGHT);
+                } else if (ANGLE_4D_OF_1P <= angle && ANGLE_4D_OF_2P > angle && tempDirection != Direction.DIRECTION_DOWN_LEFT) {
+                    // 左下
+                    tempDirection = Direction.DIRECTION_DOWN_LEFT;
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN_LEFT);
+                } else if (ANGLE_4D_OF_2P <= angle && ANGLE_4D_OF_3P > angle && tempDirection != Direction.DIRECTION_UP_LEFT) {
+                    // 左上
+                    tempDirection = Direction.DIRECTION_UP_LEFT;
+                    mOnShakeListener.direction(Direction.DIRECTION_UP_LEFT);
+                } else if (ANGLE_4D_OF_3P <= angle && ANGLE_360 > angle && tempDirection != Direction.DIRECTION_UP_RIGHT) {
+                    // 右上
+                    tempDirection = Direction.DIRECTION_UP_RIGHT;
+                    mOnShakeListener.direction(Direction.DIRECTION_UP_RIGHT);
+                }
+                break;
+            case DIRECTION_4_ROTATE_45:// 四个方向 旋转45度
+                if ((ANGLE_0 <= angle && ANGLE_ROTATE45_4D_OF_0P > angle || ANGLE_ROTATE45_4D_OF_3P <= angle && ANGLE_360 > angle) && tempDirection != Direction.DIRECTION_RIGHT) {
+                    // 右
+                    tempDirection = Direction.DIRECTION_RIGHT;
+                    mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
+                } else if (ANGLE_ROTATE45_4D_OF_0P <= angle && ANGLE_ROTATE45_4D_OF_1P > angle && tempDirection != Direction.DIRECTION_DOWN) {
+                    // 下
+                    tempDirection = Direction.DIRECTION_DOWN;
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN);
+                } else if (ANGLE_ROTATE45_4D_OF_1P <= angle && ANGLE_ROTATE45_4D_OF_2P > angle && tempDirection != Direction.DIRECTION_LEFT) {
+                    // 左
+                    tempDirection = Direction.DIRECTION_LEFT;
+                    mOnShakeListener.direction(Direction.DIRECTION_LEFT);
+                } else if (ANGLE_ROTATE45_4D_OF_2P <= angle && ANGLE_ROTATE45_4D_OF_3P > angle && tempDirection != Direction.DIRECTION_UP) {
+                    // 上
+                    tempDirection = Direction.DIRECTION_UP;
+                    mOnShakeListener.direction(Direction.DIRECTION_UP);
+                }
+                break;
+            case DIRECTION_8:// 八个方向
+                if ((ANGLE_0 <= angle && ANGLE_8D_OF_0P > angle || ANGLE_8D_OF_7P <= angle && ANGLE_360 > angle) && tempDirection != Direction.DIRECTION_RIGHT) {
+                    // 右
+                    tempDirection = Direction.DIRECTION_RIGHT;
+                    mOnShakeListener.direction(Direction.DIRECTION_RIGHT);
+                } else if (ANGLE_8D_OF_0P <= angle && ANGLE_8D_OF_1P > angle && tempDirection != Direction.DIRECTION_DOWN_RIGHT) {
+                    // 右下
+                    tempDirection = Direction.DIRECTION_DOWN_RIGHT;
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN_RIGHT);
+                } else if (ANGLE_8D_OF_1P <= angle && ANGLE_8D_OF_2P > angle && tempDirection != Direction.DIRECTION_DOWN) {
+                    // 下
+                    tempDirection = Direction.DIRECTION_DOWN;
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN);
+                } else if (ANGLE_8D_OF_2P <= angle && ANGLE_8D_OF_3P > angle && tempDirection != Direction.DIRECTION_DOWN_LEFT) {
+                    // 左下
+                    tempDirection = Direction.DIRECTION_DOWN_LEFT;
+                    mOnShakeListener.direction(Direction.DIRECTION_DOWN_LEFT);
+                } else if (ANGLE_8D_OF_3P <= angle && ANGLE_8D_OF_4P > angle && tempDirection != Direction.DIRECTION_LEFT) {
+                    // 左
+                    tempDirection = Direction.DIRECTION_LEFT;
+                    mOnShakeListener.direction(Direction.DIRECTION_LEFT);
+                } else if (ANGLE_8D_OF_4P <= angle && ANGLE_8D_OF_5P > angle && tempDirection != Direction.DIRECTION_UP_LEFT) {
+                    // 左上
+                    tempDirection = Direction.DIRECTION_UP_LEFT;
+                    mOnShakeListener.direction(Direction.DIRECTION_UP_LEFT);
+                } else if (ANGLE_8D_OF_5P <= angle && ANGLE_8D_OF_6P > angle && tempDirection != Direction.DIRECTION_UP) {
+                    // 上
+                    tempDirection = Direction.DIRECTION_UP;
+                    mOnShakeListener.direction(Direction.DIRECTION_UP);
+                } else if (ANGLE_8D_OF_6P <= angle && ANGLE_8D_OF_7P > angle && tempDirection != Direction.DIRECTION_UP_RIGHT) {
+                    // 右上
+                    tempDirection = Direction.DIRECTION_UP_RIGHT;
+                    mOnShakeListener.direction(Direction.DIRECTION_UP_RIGHT);
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -646,10 +657,25 @@ public class RockerView extends View {
      * 摇杆支持几个方向
      */
     public enum DirectionMode {
+        /**
+         * <img src="https://img-blog.csdn.net/20160901183144896">
+         */
         DIRECTION_2_HORIZONTAL,// 横向 左右两个方向
+        /**
+         * <img src="https://img-blog.csdn.net/20160901183332084">
+         */
         DIRECTION_2_VERTICAL, // 纵向 上下两个方向
+        /**
+         * <img src="https://img-blog.csdn.net/20160901183347055">
+         */
         DIRECTION_4_ROTATE_0, // 四个方向
+        /**
+         * <img src="https://img-blog.csdn.net/20160901183404461">
+         */
         DIRECTION_4_ROTATE_45, // 四个方向 旋转45度
+        /**
+         * <img src="https://img-blog.csdn.net/20160901183419477">
+         */
         DIRECTION_8 // 八个方向
     }
 
@@ -657,15 +683,42 @@ public class RockerView extends View {
      * 方向
      */
     public enum Direction {
-        DIRECTION_LEFT, // 左
-        DIRECTION_RIGHT, // 右
-        DIRECTION_UP, // 上
-        DIRECTION_DOWN, // 下
-        DIRECTION_UP_LEFT, // 左上
-        DIRECTION_UP_RIGHT, // 右上
-        DIRECTION_DOWN_LEFT, // 左下
-        DIRECTION_DOWN_RIGHT, // 右下
-        DIRECTION_CENTER // 中间
+        /**
+         * 左
+         */
+        DIRECTION_LEFT,
+        /**
+         * 右
+         */
+        DIRECTION_RIGHT,
+        /**
+         * 上
+         */
+        DIRECTION_UP,
+        /**
+         * 下
+         */
+        DIRECTION_DOWN,
+        /**
+         * 左上
+         */
+        DIRECTION_UP_LEFT,
+        /**
+         * 右上
+         */
+        DIRECTION_UP_RIGHT,
+        /**
+         * 左下
+         */
+        DIRECTION_DOWN_LEFT,
+        /**
+         * 右下
+         */
+        DIRECTION_DOWN_RIGHT,
+        /**
+         * 中间
+         */
+        DIRECTION_CENTER
     }
 
     /**

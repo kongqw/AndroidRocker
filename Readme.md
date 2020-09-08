@@ -187,11 +187,11 @@ setOnShakeListener(DirectionMode directionMode, OnShakeListener listener)
 
 | 方向                    |  图              | 描述    |
 |------------------------|------------------|------|
-| DIRECTION_2_HORIZONTAL |![左右两个方向](http://img.blog.csdn.net/20160901183144896)| 横向 左右两个方向  |
-| DIRECTION_2_VERTICAL   |![上下两个方向](http://img.blog.csdn.net/20160901183332084)| 纵向 上下两个方向  |
-| DIRECTION_4_ROTATE_0   | ![四个方向](http://img.blog.csdn.net/20160901183347055)          |四个方向          |
-| DIRECTION_4_ROTATE_45  | ![四个方向 旋转45°](http://img.blog.csdn.net/20160901183404461)  |四个方向 旋转45°  |
-| DIRECTION_8            | ![八个方向](http://img.blog.csdn.net/20160901183419477)          |八个方向          |
+| DIRECTION_2_HORIZONTAL |![左右两个方向](https://img.blog.csdn.net/20160901183144896)| 横向 左右两个方向  |
+| DIRECTION_2_VERTICAL   |![上下两个方向](https://img.blog.csdn.net/20160901183332084)| 纵向 上下两个方向  |
+| DIRECTION_4_ROTATE_0   | ![四个方向](https://img.blog.csdn.net/20160901183347055)          |四个方向          |
+| DIRECTION_4_ROTATE_45  | ![四个方向 旋转45°](s://img.blog.csdn.net/20160901183404461)  |四个方向 旋转45°  |
+| DIRECTION_8            | ![八个方向](https://img.blog.csdn.net/20160901183419477)          |八个方向          |
 
 
 方向描述
