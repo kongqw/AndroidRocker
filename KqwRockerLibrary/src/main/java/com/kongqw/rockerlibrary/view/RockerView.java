@@ -89,6 +89,7 @@ public class RockerView extends View {
     private int mAreaBackgroundMode = AREA_BACKGROUND_MODE_DEFAULT;
     private Bitmap mAreaBitmap;
     private int mAreaColor;
+
     // 摇杆背景
     private static final int ROCKER_BACKGROUND_MODE_PIC = 4;
     private static final int ROCKER_BACKGROUND_MODE_COLOR = 5;
@@ -97,6 +98,11 @@ public class RockerView extends View {
     private int mRockerBackgroundMode = ROCKER_BACKGROUND_MODE_DEFAULT;
     private Bitmap mRockerBitmap;
     private int mRockerColor;
+
+    // 摇杆移动的时候，光环背景颜色
+    private int mARCColor;
+    // 摇杆移动的时候，光环背景宽度
+    private int mARCStrokeWidth;
 
     public RockerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -118,10 +124,10 @@ public class RockerView extends View {
 
         //  绘制  跟随手势移动的光环 的画笔
         mArcPaint = new Paint();
-        mArcPaint.setAntiAlias(true);               //使用抗锯齿功能
-        mArcPaint.setColor(Color.GREEN);            //设置画笔的颜色为绿色
-        mArcPaint.setStyle(Paint.Style.STROKE);     //设置画笔类型为STROKE类型
-        mArcPaint.setStrokeWidth(10);               //设置画笔宽度
+        mArcPaint.setAntiAlias(true);                       //使用抗锯齿功能
+        mArcPaint.setColor(mARCColor);                      //设置画笔的颜色为绿色
+        mArcPaint.setStyle(Paint.Style.STROKE);             //设置画笔类型为STROKE类型
+        mArcPaint.setStrokeWidth(mARCStrokeWidth);          //设置画笔宽度
 
         // 中心点
         mCenterPoint = new Point();
@@ -187,6 +193,11 @@ public class RockerView extends View {
             // 没有设置摇杆背景
             mRockerBackgroundMode = ROCKER_BACKGROUND_MODE_DEFAULT;
         }
+
+        // 摇杆移动的时候，光环背景颜色
+        mARCColor = typedArray.getColor(R.styleable.RockerView_arcColor, Color.GREEN);
+        // 摇杆移动的时候，光环背景的宽度
+        mARCStrokeWidth = typedArray.getInt(R.styleable.RockerView_arcStrokeWidth, 10);
 
         // 摇杆半径
         mRockerRadius = typedArray.getDimensionPixelOffset(R.styleable.RockerView_rockerRadius, DEFAULT_ROCKER_RADIUS);
@@ -276,8 +287,8 @@ public class RockerView extends View {
         }
 
         // 绘制跟随手势移动的光环
-        if(angle > 0) {
-            RectF oval = new RectF( 0, 0, getWidth(), getHeight());
+        if (angle > 0) {
+            RectF oval = new RectF(0, 0, getWidth(), getHeight());
             float mAngle = (float) angle;
             // 使移动的光环圆弧  紧跟着滑动滑动的角度，并且使角度在圆弧中间
             canvas.drawArc(oval, mAngle - 30, 60, false, mArcPaint);//绘制圆弧，不含圆心

@@ -14,7 +14,9 @@
         android:background="#FF333333"
         kongqw:areaBackground="@drawable/meiguoshou_zuo"
         kongqw:rockerBackground="@drawable/sad__btn_radio_on_focused_holo_light"
-        kongqw:rockerRadius="30dp" />
+        kongqw:rockerRadius="30dp"
+        kongqw:arcColor="#ff0000"
+        kongqw:arcStrokeWidth="15"/>
 
     <TextView
         android:id="@+id/log_left"
@@ -65,7 +67,8 @@
         android:layout_centerHorizontal="true"
         kongqw:areaBackground="#FF333333"
         kongqw:rockerBackground="#FF987654"
-        kongqw:rockerRadius="15dp" />
+        kongqw:rockerRadius="15dp"
+        kongqw:arcColor="#FF987654"/>
 
     <TextView
         android:id="@+id/tip_center"
