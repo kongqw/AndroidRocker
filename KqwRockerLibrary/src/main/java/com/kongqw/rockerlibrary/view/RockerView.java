@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -38,6 +39,10 @@ public class RockerView extends View {
     private Bitmap leftLight, rightLight, topLight, bottomLight;
     // 绘制 上下左右的滑动到对应区域的光线 的画笔
     private Paint mCirclePaint;
+    // 绘制 跟随手势移动的光环 的画笔
+    private Paint mArcPaint;
+    // 摇杆滑动的角度
+    private double angle = 0;
 
     private Point mRockerPosition;
     private Point mCenterPoint;
@@ -119,6 +124,13 @@ public class RockerView extends View {
         //  绘制 上下左右的滑动到对应区域的光线 的画笔
         mCirclePaint = new Paint();
         mCirclePaint.setAntiAlias(true);
+
+        //  绘制  跟随手势移动的光环 的画笔
+        mArcPaint = new Paint();
+        mArcPaint.setAntiAlias(true);               //使用抗锯齿功能
+        mArcPaint.setColor(Color.GREEN);            //设置画笔的颜色为绿色
+        mArcPaint.setStyle(Paint.Style.STROKE);     //设置画笔类型为STROKE类型
+        mArcPaint.setStrokeWidth(10);               //设置画笔宽度
 
         // 中心点
         mCenterPoint = new Point();
@@ -297,6 +309,13 @@ public class RockerView extends View {
                     break;
             }
         }
+
+        // 绘制跟随手势移动的光环
+        if(angle > 0) {
+            RectF oval = new RectF( 0, 0, getWidth(), getHeight());
+            float mAngle = (float) angle;
+            canvas.drawArc(oval, mAngle, 45, false, mArcPaint);//绘制圆弧，不含圆心
+        }
     }
 
     @Override
@@ -364,7 +383,7 @@ public class RockerView extends View {
         // 计算弧度
         double radian = Math.acos(lenX / lenXY) * (touchPoint.y < centerPoint.y ? -1 : 1);
         // 计算角度
-        double angle = radian2Angle(radian);
+        angle = radian2Angle(radian);
 
         // 回调 返回参数
         callBack(angle);
@@ -637,6 +656,8 @@ public class RockerView extends View {
      * 结束
      */
     private void callBackFinish() {
+        //结束的时候，滑动的角度要归零
+        angle = 0;
         tempDirection = Direction.DIRECTION_CENTER;
         if (null != mOnAngleChangeListener) {
             mOnAngleChangeListener.onFinish();
