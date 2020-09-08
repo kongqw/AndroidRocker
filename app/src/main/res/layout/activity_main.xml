@@ -11,8 +11,9 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_alignParentBottom="true"
-        kongqw:areaBackground="@drawable/default_area_bg"
-        kongqw:rockerBackground="@drawable/default_rocker_bg"
+        android:background="#FF333333"
+        kongqw:areaBackground="@drawable/meiguoshou_zuo"
+        kongqw:rockerBackground="@drawable/sad__btn_radio_on_focused_holo_light"
         kongqw:rockerRadius="30dp" />
 
     <TextView
@@ -35,8 +36,9 @@
         android:layout_height="200dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        kongqw:areaBackground="@mipmap/view_big"
-        kongqw:rockerBackground="@mipmap/view_small"
+        android:background="#FF333333"
+        kongqw:areaBackground="@drawable/meiguoshou_you"
+        kongqw:rockerBackground="@drawable/sad__btn_radio_on_focused_holo_light"
         kongqw:rockerRadius="30dp" />
 
     <TextView
