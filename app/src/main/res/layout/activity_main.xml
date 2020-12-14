@@ -5,14 +5,18 @@
     android:layout_height="match_parent"
     android:padding="30dp">
 
+    <!-- ======================左边摇杆布局====================== -->
     <com.kongqw.rockerlibrary.view.RockerView
         android:id="@+id/rockerView_left"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_alignParentBottom="true"
-        kongqw:areaBackground="@drawable/default_area_bg"
-        kongqw:rockerBackground="@drawable/default_rocker_bg"
-        kongqw:rockerRadius="30dp" />
+        android:background="#FF333333"
+        kongqw:areaBackground="@drawable/meiguoshou_zuo"
+        kongqw:rockerBackground="@drawable/sad__btn_radio_on_focused_holo_light"
+        kongqw:rockerRadius="30dp"
+        kongqw:arcColor="#ff0000"
+        kongqw:arcStrokeWidth="15"/>
 
     <TextView
         android:id="@+id/log_left"
@@ -27,14 +31,16 @@
         android:layout_above="@id/log_left"
         android:text="支持8个方向的摇杆\n自定义Shape" />
 
+    <!-- ======================右边摇杆布局====================== -->
     <com.kongqw.rockerlibrary.view.RockerView
         android:id="@+id/rockerView_right"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        kongqw:areaBackground="@mipmap/view_big"
-        kongqw:rockerBackground="@mipmap/view_small"
+        android:layout_alignParentBottom="true"
+        android:background="#FF333333"
+        kongqw:areaBackground="@drawable/meiguoshou_you"
+        kongqw:rockerBackground="@drawable/sad__btn_radio_on_focused_holo_light"
         kongqw:rockerRadius="30dp" />
 
     <TextView
@@ -52,6 +58,8 @@
         android:layout_alignParentRight="true"
         android:text="获取到摇动角度（可自定义方向）\n自定义图片" />
 
+
+    <!-- ======================上方摇杆布局====================== -->
     <com.kongqw.rockerlibrary.view.RockerView
         android:id="@+id/rockerView_center"
         android:layout_width="100dp"
@@ -59,13 +67,14 @@
         android:layout_centerHorizontal="true"
         kongqw:areaBackground="#FF333333"
         kongqw:rockerBackground="#FF987654"
-        kongqw:rockerRadius="15dp" />
+        kongqw:rockerRadius="15dp"
+        kongqw:arcColor="#FF987654"/>
 
     <TextView
         android:id="@+id/tip_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/rockerView_center"
+        android:layout_centerHorizontal="true"
         android:text="自定义色值" />
 </RelativeLayout>

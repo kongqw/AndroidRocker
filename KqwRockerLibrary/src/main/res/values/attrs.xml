@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <declare-styleable name="RockerView">
+        <!--可移动区域背景-->
         <attr name="areaBackground" format="color|reference" />
+        <!--摇杆背景-->
         <attr name="rockerBackground" format="color|reference" />
+        <!--摇杆移动的时候，光环背景颜色-->
+        <attr name="arcColor" format="color" />
+        <!--摇杆移动的时候，光环背景的宽度-->
+        <attr name="arcStrokeWidth" format="integer" />
+        <!--摇杆半径-->
         <attr name="rockerRadius" format="dimension" />
     </declare-styleable>
-
 </resources>

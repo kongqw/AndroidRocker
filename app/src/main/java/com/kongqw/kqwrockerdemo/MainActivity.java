@@ -2,12 +2,19 @@ package com.kongqw.kqwrockerdemo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
+import com.kongqw.rockerlibrary.view.CallBackMode;
+import com.kongqw.rockerlibrary.view.Direction;
+import com.kongqw.rockerlibrary.view.DirectionMode;
+import com.kongqw.rockerlibrary.view.OnAngleChangeListener;
+import com.kongqw.rockerlibrary.view.OnShakeListener;
 import com.kongqw.rockerlibrary.view.RockerView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private TextView mLogLeft;
     private TextView mLogRight;
 
@@ -18,18 +25,22 @@ public class MainActivity extends AppCompatActivity {
         mLogLeft = (TextView) findViewById(R.id.log_left);
         mLogRight = (TextView) findViewById(R.id.log_right);
 
+        //初始化
         RockerView rockerViewLeft = (RockerView) findViewById(R.id.rockerView_left);
         if (rockerViewLeft != null) {
-            rockerViewLeft.setCallBackMode(RockerView.CallBackMode.CALL_BACK_MODE_STATE_CHANGE);
-            rockerViewLeft.setOnShakeListener(RockerView.DirectionMode.DIRECTION_8, new RockerView.OnShakeListener() {
+            //设置回调模式
+            rockerViewLeft.setCallBackMode(CallBackMode.CALL_BACK_MODE_STATE_CHANGE);
+            // 监听摇动方向
+            rockerViewLeft.setOnShakeListener(DirectionMode.DIRECTION_4_ROTATE_45, new OnShakeListener() {
                 @Override
                 public void onStart() {
                     mLogLeft.setText(null);
                 }
 
                 @Override
-                public void direction(RockerView.Direction direction) {
+                public void direction(Direction direction) {
                     mLogLeft.setText("摇动方向 : " + getDirection(direction));
+                    Log.d(TAG,"摇动方向 : " + getDirection(direction));
                 }
 
                 @Override
@@ -41,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         RockerView rockerViewRight = (RockerView) findViewById(R.id.rockerView_right);
         if (rockerViewRight != null) {
-            rockerViewRight.setOnAngleChangeListener(new RockerView.OnAngleChangeListener() {
+            // 监听摇动角度
+            rockerViewRight.setOnAngleChangeListener(new OnAngleChangeListener() {
                 @Override
                 public void onStart() {
                     mLogRight.setText(null);
@@ -50,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void angle(double angle) {
                     mLogRight.setText("摇动角度 : " + angle);
+                    Log.d(TAG,"摇动角度 : " + angle);
                 }
 
                 @Override
@@ -60,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private String getDirection(RockerView.Direction direction) {
+    private String getDirection(Direction direction) {
         String message = null;
         switch (direction) {
             case DIRECTION_LEFT:
