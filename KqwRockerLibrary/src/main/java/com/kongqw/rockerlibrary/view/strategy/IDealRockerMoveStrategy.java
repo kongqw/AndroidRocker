@@ -1,4 +1,4 @@
-package com.kongqw.rockerlibrary.view;
+package com.kongqw.rockerlibrary.view.strategy;
 
 
 import com.kongqw.rockerlibrary.view.RockerView;

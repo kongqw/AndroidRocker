@@ -5,6 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.kongqw.rockerlibrary.view.CallBackMode;
+import com.kongqw.rockerlibrary.view.Direction;
+import com.kongqw.rockerlibrary.view.DirectionMode;
+import com.kongqw.rockerlibrary.view.OnAngleChangeListener;
+import com.kongqw.rockerlibrary.view.OnShakeListener;
 import com.kongqw.rockerlibrary.view.RockerView;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,16 +29,16 @@ public class MainActivity extends AppCompatActivity {
         RockerView rockerViewLeft = (RockerView) findViewById(R.id.rockerView_left);
         if (rockerViewLeft != null) {
             //设置回调模式
-            rockerViewLeft.setCallBackMode(RockerView.CallBackMode.CALL_BACK_MODE_STATE_CHANGE);
+            rockerViewLeft.setCallBackMode(CallBackMode.CALL_BACK_MODE_STATE_CHANGE);
             // 监听摇动方向
-            rockerViewLeft.setOnShakeListener(RockerView.DirectionMode.DIRECTION_4_ROTATE_45, new RockerView.OnShakeListener() {
+            rockerViewLeft.setOnShakeListener(DirectionMode.DIRECTION_4_ROTATE_45, new OnShakeListener() {
                 @Override
                 public void onStart() {
                     mLogLeft.setText(null);
                 }
 
                 @Override
-                public void direction(RockerView.Direction direction) {
+                public void direction(Direction direction) {
                     mLogLeft.setText("摇动方向 : " + getDirection(direction));
                     Log.d(TAG,"摇动方向 : " + getDirection(direction));
                 }
@@ -48,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         RockerView rockerViewRight = (RockerView) findViewById(R.id.rockerView_right);
         if (rockerViewRight != null) {
             // 监听摇动角度
-            rockerViewRight.setOnAngleChangeListener(new RockerView.OnAngleChangeListener() {
+            rockerViewRight.setOnAngleChangeListener(new OnAngleChangeListener() {
                 @Override
                 public void onStart() {
                     mLogRight.setText(null);
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private String getDirection(RockerView.Direction direction) {
+    private String getDirection(Direction direction) {
         String message = null;
         switch (direction) {
             case DIRECTION_LEFT:

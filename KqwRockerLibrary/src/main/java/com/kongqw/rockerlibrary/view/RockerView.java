@@ -20,6 +20,12 @@ import android.view.View;
 
 import com.kongqw.rockerlibrary.Logger;
 import com.kongqw.rockerlibrary.R;
+import com.kongqw.rockerlibrary.view.strategy.Direction2HorizontalStrategy;
+import com.kongqw.rockerlibrary.view.strategy.Direction2VerticalStrategy;
+import com.kongqw.rockerlibrary.view.strategy.Direction4Rotate0Strategy;
+import com.kongqw.rockerlibrary.view.strategy.Direction4Rotate45Strategy;
+import com.kongqw.rockerlibrary.view.strategy.Direction8Strategy;
+import com.kongqw.rockerlibrary.view.strategy.IDealRockerMoveStrategy;
 
 /**
  * Created by kqw on 2016/8/30.
@@ -438,15 +444,7 @@ public class RockerView extends View {
         }
     }
 
-    /**
-     * 回调模式
-     */
-    public enum CallBackMode {
-        // 有移动就立刻回调
-        CALL_BACK_MODE_MOVE,
-        // 只有状态变化的时候才回调
-        CALL_BACK_MODE_STATE_CHANGE
-    }
+
 
     /**
      * 设置回调模式
@@ -455,74 +453,6 @@ public class RockerView extends View {
      */
     public void setCallBackMode(CallBackMode mode) {
         mCallBackMode = mode;
-    }
-
-    /**
-     * 摇杆支持几个方向
-     */
-    public enum DirectionMode {
-        /**
-         * <img src="https://img-blog.csdn.net/20160901183144896">
-         */
-        DIRECTION_2_HORIZONTAL,// 横向 左右两个方向
-        /**
-         * <img src="https://img-blog.csdn.net/20160901183332084">
-         */
-        DIRECTION_2_VERTICAL, // 纵向 上下两个方向
-        /**
-         * <img src="https://img-blog.csdn.net/20160901183347055">
-         */
-        DIRECTION_4_ROTATE_0, // 四个方向
-        /**
-         * <img src="https://img-blog.csdn.net/20160901183404461">
-         */
-        DIRECTION_4_ROTATE_45, // 四个方向 旋转45度
-        /**
-         * <img src="https://img-blog.csdn.net/20160901183419477">
-         */
-        DIRECTION_8 // 八个方向
-    }
-
-    /**
-     * 方向
-     */
-    public enum Direction {
-        /**
-         * 左
-         */
-        DIRECTION_LEFT,
-        /**
-         * 右
-         */
-        DIRECTION_RIGHT,
-        /**
-         * 上
-         */
-        DIRECTION_UP,
-        /**
-         * 下
-         */
-        DIRECTION_DOWN,
-        /**
-         * 左上
-         */
-        DIRECTION_UP_LEFT,
-        /**
-         * 右上
-         */
-        DIRECTION_UP_RIGHT,
-        /**
-         * 左下
-         */
-        DIRECTION_DOWN_LEFT,
-        /**
-         * 右下
-         */
-        DIRECTION_DOWN_RIGHT,
-        /**
-         * 中间
-         */
-        DIRECTION_CENTER
     }
 
     /**
@@ -561,41 +491,5 @@ public class RockerView extends View {
             dealRockerMoveStrategy = new Direction8Strategy();
         }
         return dealRockerMoveStrategy;
-    }
-
-    /**
-     * 摇动方向监听接口
-     */
-    public interface OnShakeListener {
-        // 开始
-        void onStart();
-
-        /**
-         * 摇动方向
-         *
-         * @param direction 方向
-         */
-        void direction(Direction direction);
-
-        // 结束
-        void onFinish();
-    }
-
-    /**
-     * 摇动角度的监听接口
-     */
-    public interface OnAngleChangeListener {
-        // 开始
-        void onStart();
-
-        /**
-         * 摇杆角度变化
-         *
-         * @param angle 角度[0,360)
-         */
-        void angle(double angle);
-
-        // 结束
-        void onFinish();
     }
 }
